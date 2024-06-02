@@ -9,16 +9,18 @@ const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 float rotationAngle = 0.0f;
 
+// matching viewport size to window size
 void framebuffer_size_callback(GLFWwindow *window, int width, int height) {
   glViewport(0, 0, width, height);
 }
 
+// detects if the Escape key is pressed and closes the application window if so
 void processInput(GLFWwindow *window) {
   if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
     glfwSetWindowShouldClose(window, true);
 }
 
-void renderQuads() {
+void renderCube() {
   glClear(GL_COLOR_BUFFER_BIT);
 
   glColor3f(1.0f, 1.0f, 1.0f);
@@ -77,6 +79,7 @@ int main() {
   }
   glfwMakeContextCurrent(window);
 
+  // lessons for window resize events
   glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
   if (glewInit() != GLEW_OK) {
@@ -85,11 +88,13 @@ int main() {
   }
 
   while (!glfwWindowShouldClose(window)) {
+    // handling user inputs
     processInput(window);
 
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-    renderQuads();
+    renderCube();
 
+    // swaping front ( current ) buffer and back ( in queue ) buffer
     glfwSwapBuffers(window);
     glfwPollEvents();
 
