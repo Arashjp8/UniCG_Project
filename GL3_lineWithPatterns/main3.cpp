@@ -20,41 +20,35 @@ void processInput(GLFWwindow *window)
 
 void renderLines()
 {
-    // Enable line stipple
     glEnable(GL_LINE_STIPPLE);
 
-    // Define the pattern and factor
-    glLineStipple(1, 0x00FF); // Factor of 1, pattern 0x00FF (dash-dot pattern)
+    glLineStipple(1, 0x00FF);
 
     glBegin(GL_LINES);
-    glColor3f(1.0f, 1.0f, 1.0f); // Red color
+    glColor3f(1.0f, 1.0f, 1.0f);
     glVertex2f(-0.9f, 0.0f);
     glVertex2f(0.9f, 0.0f);
     glEnd();
 
-    // Change the pattern and factor
-    glLineStipple(3, 0xAAAA); // Factor of 3, pattern 0xAAAA (alternating dots and dashes)
+    glLineStipple(5, 0xFAFA);
 
     glBegin(GL_LINES);
-    glColor3f(1.0f, 1.0f, 1.0f); // Blue color
+    glColor3f(1.0f, 1.0f, 1.0f);
     glVertex2f(-0.9f, -0.2f);
     glVertex2f(0.9f, -0.2f);
     glEnd();
 
-    // Disable line stipple
     glDisable(GL_LINE_STIPPLE);
 }
 
 int main()
 {
-    // Initialize GLFW
     if (!glfwInit())
     {
         cerr << "Failed to initialize GLFW" << endl;
         return -1;
     }
 
-    // Create a windowed mode window and its OpenGL context
     GLFWwindow *window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Patterned Lines", NULL, NULL);
     if (!window)
     {
@@ -64,30 +58,23 @@ int main()
     }
     glfwMakeContextCurrent(window);
 
-    // Set the framebuffer size callback
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
-    // Initialize GLEW
     if (glewInit() != GLEW_OK)
     {
         cerr << "Failed to initialize GLEW" << endl;
         return -1;
     }
 
-    // Render loop
     while (!glfwWindowShouldClose(window))
     {
-        // Input
         processInput(window);
 
-        // Render here
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        // Render the patterned lines
         renderLines();
 
-        // Swap buffers
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
